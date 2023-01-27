@@ -11,16 +11,10 @@ export default function NavBar() {
           Home
         </Link>
         <Link
-          href="/blogs"
+          href="/auth/my-page"
           className="rounded bg-gray-700 px-3 py-2 text-white hover:bg-gray-500"
         >
-          Nested Layout with Blogs
-        </Link>
-        <Link
-          href="/streaming-sr"
-          className="rounded bg-gray-700 px-3 py-2 text-white hover:bg-gray-500"
-        >
-          Streaming SR
+          MyPage
         </Link>
         <Link
           href="/auth"
