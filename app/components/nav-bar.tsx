@@ -26,13 +26,19 @@ export default function NavBar() {
                 <>
                     <div className="text-sm lg:flex-grow">
                         <Link
+                            href={`/auth/phone/${loginUser.id}`}
+                            className="block mt-4 lg:inline-block lg:mt-0 text-white hover:text-teal-200 mr-4"
+                        >
+                            PHONE
+                        </Link>
+                        <Link
                             href={`/auth/my-page/${loginUser.id}`}
                             className="block mt-4 lg:inline-block lg:mt-0 text-white hover:text-teal-200 mr-4"
                         >
                             MyPage
                         </Link>
                         <Link
-                            href="/auth"
+                            href="/auth/todo-crud"
                             className="block mt-4 lg:inline-block lg:mt-0 text-white hover:text-teal-200"
                         >
                             TODO
