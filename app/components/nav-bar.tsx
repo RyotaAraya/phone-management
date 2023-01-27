@@ -2,7 +2,10 @@
 import Link from 'next/link'
 import useStore from '../../store'
 import { useEffect } from 'react'
-import { ArrowRightOnRectangleIcon } from '@heroicons/react/24/solid'
+import {
+    ArrowRightOnRectangleIcon,
+    ArrowLeftOnRectangleIcon,
+} from '@heroicons/react/24/solid'
 import supabase from '../../utils/supabase'
 
 export default function NavBar() {
@@ -44,7 +47,17 @@ export default function NavBar() {
                 </>
             )
         }
-        return null
+        return (
+            <>
+                <div className="text-sm lg:flex-grow"></div>
+                <Link href="/auth">
+                    <ArrowLeftOnRectangleIcon
+                        className="inline-block my-1 h-6 w-6 cursor-pointer lg:mt-0 text-white hover:bg-teal-500"
+                        onClick={signOut}
+                    />
+                </Link>
+            </>
+        )
     }
 
     return (
