@@ -20,12 +20,12 @@ export default async function TodoDetailPage({ params }: PageProps) {
     .select('*')
     .eq('id', params.todoId)
     .single()
-  if (!todo) return notFound()
+  //if (!todo) return notFound()
   return (
     <div className="mt-16 border-2 p-8">
-      <p>Task ID: {todo.id}</p>
-      <p>Title: {todo.title}</p>
-      <p>Status: {todo.completed ? 'done' : 'not yet'}</p>
+      <p>Task ID: {todo?.id}</p>
+      <p>Title: {todo?.title}</p>
+      <p>Status: {todo?.completed ? 'done' : 'not yet'}</p>
       <p>
         Created at:{' '}
         {todo && format(new Date(todo.created_at), 'yyyy-MM-dd HH:mm:ss')}
