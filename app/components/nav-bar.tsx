@@ -26,7 +26,7 @@ export default function NavBar() {
                 <>
                     <div className="text-sm lg:flex-grow">
                         <Link
-                            href={`/auth/phone/${loginUser.id}`}
+                            href={`/auth/phone/`}
                             className="block mt-4 lg:inline-block lg:mt-0 text-white hover:text-teal-200 mr-4"
                         >
                             PHONE
