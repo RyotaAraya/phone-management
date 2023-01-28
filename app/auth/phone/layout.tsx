@@ -1,7 +1,7 @@
 import { Suspense } from 'react'
 import Spinner from '../../components/spinner'
 import EditTask from '../../components/todo-edit'
-import TodoList from '../../components/todo-list'
+import PhoneList from '../../components/phone-list'
 
 export default async function PhoneLayout({
   children,
@@ -14,7 +14,7 @@ export default async function PhoneLayout({
         <EditTask />
         <Suspense fallback={<Spinner />}>
           {/* @ts-ignore*/}
-          <TodoList />
+          <PhoneList />
         </Suspense>
       </aside>
       <main className="flex flex-1 justify-center">{children}</main>
