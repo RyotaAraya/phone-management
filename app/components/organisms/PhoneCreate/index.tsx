@@ -2,10 +2,10 @@
 import { FormEvent, useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { ArrowRightOnRectangleIcon } from '@heroicons/react/24/solid'
-import useStore from '../../store'
-import supabase from '../../utils/supabase'
+import useStore from '../../../../store'
+import supabase from '../../../../utils/supabase'
 
-export default function SubUserCreate() {
+export default function PhoneCreate() {
     const router = useRouter()
     const { editedTask } = useStore()
     const { loginUser } = useStore()
