@@ -2,15 +2,15 @@
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { TrashIcon } from '@heroicons/react/24/solid'
-import supabase from '../../utils/supabase'
-import useStore from '../../store'
-import type { Database } from '../../database.types'
+import supabase from '../../../../utils/supabase'
+import useStore from '../../../../store'
+import type { Database } from '../../../../database.types'
 
 type Subuser = Database['public']['Tables']['subusers']['Row']
 type Props = {
     Subusers: Subuser[]
 }
-export default function PhoneItem({ Subusers }: Props) {
+export const PhoneList = ({ Subusers }: Props) => {
     const [originList, setOriginlList] = useState(Subusers)
     const router = useRouter()
     const resetTask = useStore((state) => state.resetEditedTask)

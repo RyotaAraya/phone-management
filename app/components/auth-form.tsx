@@ -22,7 +22,7 @@ export default function AuthForm() {
             if (error) {
                 alert(error.message)
             } else {
-                router.push('/auth/todo-crud')
+                router.push('/auth/phone')
             }
         } else {
             const { error } = await supabase.auth.signUp({
