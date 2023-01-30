@@ -37,12 +37,6 @@ export default function NavBar() {
                         >
                             MyPage
                         </Link>
-                        <Link
-                            href="/auth/todo-crud"
-                            className="block mt-4 lg:inline-block lg:mt-0 text-white hover:text-teal-200"
-                        >
-                            TODO
-                        </Link>
                     </div>
                     <div>
                         <ArrowRightOnRectangleIcon

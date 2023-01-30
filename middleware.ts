@@ -11,7 +11,7 @@ export async function middleware(req: NextRequest) {
     } = await supabase.auth.getSession()
 
     //未ログインであればauthにリダイレクト
-    if (!session && req.nextUrl.pathname.startsWith('/auth/todo-crud')) {
+    if (!session && req.nextUrl.pathname.startsWith('/auth/phone')) {
         const redirectUrl = req.nextUrl.clone()
         redirectUrl.pathname = '/auth'
         return NextResponse.redirect(redirectUrl)
