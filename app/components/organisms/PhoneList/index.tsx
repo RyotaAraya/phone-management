@@ -19,7 +19,7 @@ export const PhoneList = ({ Subusers }: Props) => {
         setPhones,
         deletePhone,
         updatePhones,
-        resetEditedTask,
+        resetEditedTask
     } = useStore((state) => state)
 
     const updateMutate = async (id: string, name: string) => {

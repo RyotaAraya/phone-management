@@ -1,17 +1,38 @@
 'use client'
-import { useState, FormEvent } from 'react'
+import { useState, FormEvent, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
-import { ArrowRightOnRectangleIcon } from '@heroicons/react/24/solid'
 import supabase from '../../utils/supabase'
 import useStore from '../../store'
+import { useForm, SubmitHandler } from 'react-hook-form'
+
+type Inputs = {
+    email: string
+    password: string
+}
+
 export default function AuthForm() {
     const { loginUser, resetLoginUser } = useStore()
     const [isLogin, setIsLogin] = useState(true)
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
     const router = useRouter()
-    async function handleSubmit(e: FormEvent<HTMLFormElement>) {
-        e.preventDefault()
+    const {
+        register,
+        handleSubmit,
+        setError,
+        watch,
+        formState: { errors },
+    } = useForm<Inputs>()
+
+    useEffect(() => {
+        setError('email', {
+            type: 'manual',
+            message: '',
+        })
+    }, [setError])
+
+    const onSubmit = async () => {
+        //e.preventDefault()
         if (isLogin) {
             const { error } = await supabase.auth.signInWithPassword({
                 email,
@@ -36,18 +57,17 @@ export default function AuthForm() {
             }
         }
     }
-    function signOut() {
-        supabase.auth.signOut()
-        resetLoginUser()
-    }
     return (
         <div className="flex flex-col items-center justify-center">
             <p>{loginUser.email}</p>
-            <form onSubmit={handleSubmit}>
+            <form onSubmit={handleSubmit(onSubmit)}>
                 <div>
                     <input
                         type="text"
-                        required
+                        {...register('email', {
+                            maxLength: 256,
+                            required: 'Emailを入力してください。',
+                        })}
                         className="my-2 rounded border border-gray-300 px-3 py-2 text-sm placeholder-gray-500 focus:outline-none"
                         placeholder="Email"
                         value={email}
@@ -55,11 +75,18 @@ export default function AuthForm() {
                             setEmail(e.target.value)
                         }}
                     />
+                    <div className="text-sm text-red-500">
+                        {errors.email && <p>{errors.email.message}</p>}
+                    </div>
                 </div>
                 <div>
                     <input
                         type="password"
-                        required
+                        {...register('password', {
+                            maxLength: 256,
+                            minLength: 8,
+                            required: 'パスワードを入力してください。',
+                        })}
                         className="my-2 rounded border border-gray-300 px-3 py-2 text-sm  placeholder-gray-500 focus:outline-none"
                         placeholder="Password"
                         value={password}
@@ -67,6 +94,9 @@ export default function AuthForm() {
                             setPassword(e.target.value)
                         }}
                     />
+                    <div className="text-sm text-red-500">
+                        {errors.password && <p>{errors.password.message}</p>}
+                    </div>
                 </div>
                 <div className="my-6 flex justify-center text-sm">
                     <button
