@@ -12,7 +12,6 @@ export default function PhoneCreate() {
     const { createPhone } = useStore((state) => state)
     const { loginUser } = useStore()
     const reset = useStore((state) => state.resetCreatingPhone)
-    const { addPhone } = useStore((state) => state)
 
     const submitHandler = async (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault()
@@ -20,12 +19,11 @@ export default function PhoneCreate() {
         const id = loginUser.id
         if (val === '' || id === undefined) return
 
-        addPhone(creatingPhone)
         const { error } = await supabase
             .from('subusers')
             .insert({ name: val, user_id: id })
-        //router.refresh()
         fetchUsers()
+        router.refresh()
         reset()
     }
 
@@ -40,10 +38,13 @@ export default function PhoneCreate() {
     }
 
     const fetchUsers = async () => {
-        const { data } = await supabase.from('subusers').select('*')
+        const { data } = await supabase
+            .from('subusers')
+            .select('*')
+            .order('created_at', { ascending: true })
+
         if (data === null) return
         setPhones(data) // useStateにデータを保存する
-        console.log(data) // supabaseからデータがfetchできているかdebugする
     }
 
     return (

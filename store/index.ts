@@ -94,7 +94,7 @@ const useStore = create<State>((set, get) => ({
     createPhone: (id, name) =>
         set({
             creatingPhone: {
-                id: String(get().originPhonesList.length + 1),
+                id: '',
                 user_id: id,
                 name: name,
                 created_at: '',

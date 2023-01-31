@@ -22,9 +22,8 @@ export const PhoneList = ({ Subusers }: Props) => {
     const resetTask = useStore((state) => state.resetEditedTask)
     const updateMutate = async (id: string, name: string) => {
         await supabase.from('subusers').update({ name: name }).eq('id', id)
-        resetTask()
-        //router.refresh()
         fetchUsers()
+        resetTask()
     }
     const deleteMutate = async (id: string) => {
         await supabase.from('subusers').delete().eq('id', id)
@@ -53,7 +52,6 @@ export const PhoneList = ({ Subusers }: Props) => {
     const onBlur = (id: string) => {
         const list = editedPhonesList.find((list) => String(list.id) === id)
         if (list === undefined) return
-        setPhones(editedPhonesList)
         updateMutate(id, list.name)
     }
     //useStoreに初期値登録
@@ -63,7 +61,11 @@ export const PhoneList = ({ Subusers }: Props) => {
     }, [])
 
     const fetchUsers = async () => {
-        const { data } = await supabase.from('subusers').select('*')
+        const { data } = await supabase
+            .from('subusers')
+            .select('*')
+            .order('created_at', { ascending: true })
+
         if (data === null) return
         setPhones(data) // useStateにデータを保存する
         console.log(data) // supabaseからデータがfetchできているかdebugする
