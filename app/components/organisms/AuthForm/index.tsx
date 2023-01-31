@@ -1,8 +1,8 @@
 'use client'
 import { useState, FormEvent, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
-import supabase from '../../utils/supabase'
-import useStore from '../../store'
+import supabase from '../../../../utils/supabase'
+import useStore from '../../../../store'
 import { useForm, SubmitHandler } from 'react-hook-form'
 
 type Inputs = {
@@ -40,7 +40,7 @@ export default function AuthForm() {
             })
             reset(password)
             if (error) {
-                alert(error.message)
+                alert('ログイン失敗しました')
             } else {
                 router.push('/auth/phone')
             }
@@ -51,13 +51,12 @@ export default function AuthForm() {
             })
             reset()
             if (error) {
-                alert(error.message)
+                alert('ユーザ登録失敗しました')
             } else {
                 router.push('/auth/phone')
             }
         }
     }
-    console.log('errors', errors)
     return (
         <div className="flex flex-col items-center justify-center">
             <p>{loginUser.email}</p>
