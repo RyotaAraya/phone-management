@@ -13,8 +13,6 @@ type Inputs = {
 export default function AuthForm() {
     const { loginUser, resetLoginUser } = useStore()
     const [isLogin, setIsLogin] = useState(true)
-    const [email, setEmail] = useState('')
-    const [password, setPassword] = useState('')
     const router = useRouter()
     const {
         register,
@@ -22,6 +20,7 @@ export default function AuthForm() {
         setError,
         watch,
         formState: { errors },
+        reset,
     } = useForm<Inputs>()
 
     useEffect(() => {
@@ -31,17 +30,18 @@ export default function AuthForm() {
         })
     }, [setError])
 
-    const onSubmit = async () => {
-        //e.preventDefault()
+    const onSubmit = async (data: any) => {
+        const email = data.email
+        const password = data.password
         if (isLogin) {
             const { error } = await supabase.auth.signInWithPassword({
                 email,
                 password,
             })
-            setEmail('')
-            setPassword('')
+            reset(password)
             if (error) {
                 alert(error.message)
+                router.push('/auth')
             } else {
                 router.push('/auth/phone')
             }
@@ -50,13 +50,13 @@ export default function AuthForm() {
                 email,
                 password,
             })
-            setEmail('')
-            setPassword('')
+            reset()
             if (error) {
                 alert(error.message)
             }
         }
     }
+    console.log('errors', errors)
     return (
         <div className="flex flex-col items-center justify-center">
             <p>{loginUser.email}</p>
@@ -65,37 +65,48 @@ export default function AuthForm() {
                     <input
                         type="text"
                         {...register('email', {
-                            maxLength: 256,
+                            maxLength: {
+                                value: 255,
+                                message: '255文字以下で入力してください',
+                            },
                             required: 'Emailを入力してください。',
                         })}
-                        className="my-2 rounded border border-gray-300 px-3 py-2 text-sm placeholder-gray-500 focus:outline-none"
+                        className={`${
+                            errors.email?.message
+                                ? 'border-red-300'
+                                : 'border-gray-300'
+                        } my-2 rounded border  px-3 py-2 text-sm placeholder-gray-500 focus:outline-none`}
                         placeholder="Email"
-                        value={email}
-                        onChange={(e) => {
-                            setEmail(e.target.value)
-                        }}
                     />
                     <div className="text-sm text-red-500">
-                        {errors.email && <p>{errors.email.message}</p>}
+                        {errors.email && <span>{errors.email.message}</span>}
                     </div>
                 </div>
                 <div>
                     <input
                         type="password"
                         {...register('password', {
-                            maxLength: 256,
-                            minLength: 8,
-                            required: 'パスワードを入力してください。',
+                            maxLength: {
+                                value: 255,
+                                message: '255文字以下で入力してください',
+                            },
+                            minLength: {
+                                value: 8,
+                                message: '8文字以上で入力してください',
+                            },
+                            required: 'パスワードを入力してください',
                         })}
-                        className="my-2 rounded border border-gray-300 px-3 py-2 text-sm  placeholder-gray-500 focus:outline-none"
+                        className={`${
+                            errors.password?.message
+                                ? 'border-red-300'
+                                : 'border-gray-300'
+                        } my-2 rounded border  px-3 py-2 text-sm placeholder-gray-500 focus:outline-none`}
                         placeholder="Password"
-                        value={password}
-                        onChange={(e) => {
-                            setPassword(e.target.value)
-                        }}
                     />
                     <div className="text-sm text-red-500">
-                        {errors.password && <p>{errors.password.message}</p>}
+                        {errors.password && (
+                            <span>{errors.password.message}</span>
+                        )}
                     </div>
                 </div>
                 <div className="my-6 flex justify-center text-sm">
