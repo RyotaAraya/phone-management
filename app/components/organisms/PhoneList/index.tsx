@@ -33,7 +33,6 @@ export const PhoneList = ({ Subusers }: Props) => {
         deletePhone(id)
         deleteMutate(id)
     }
-
     const updateList = (id: string, e: any) => {
         console.log('up', editedPhonesList)
         const newList = editedPhonesList.map((List) => {
