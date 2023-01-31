@@ -1,3 +1,21 @@
+# 使ってる技術
+
+## フロントエンド
+### フレームワーク
+Next.js 13
+
+### ライブラリ
+React.js
+zustand: state管理
+
+## サーバサイド
+Supabase
+
+# メモ
+
+リアルタイムにDBとの通信を行い、表示を切り替える
+
+
 # Next.js + Tailwind CSS Example
 
 This example shows how to use [Tailwind CSS](https://tailwindcss.com/) [(v3.2)](https://tailwindcss.com/blog/tailwindcss-v3-2) with Next.js. It follows the steps outlined in the official [Tailwind docs](https://tailwindcss.com/docs/guides/nextjs).
