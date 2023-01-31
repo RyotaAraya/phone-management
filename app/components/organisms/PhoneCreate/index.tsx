@@ -1,37 +1,39 @@
 'use client'
 import { FormEvent, useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
-import { ArrowRightOnRectangleIcon } from '@heroicons/react/24/solid'
 import useStore from '../../../../store'
 import supabase from '../../../../utils/supabase'
 
 export default function PhoneCreate() {
     const router = useRouter()
-    const { editedTask } = useStore()
+    const { creatingPhone } = useStore((state) => state)
+    const { createPhone } = useStore((state) => state)
     const { loginUser } = useStore()
-    const updateTask = useStore((state) => state.updateEditedTask)
-    const reset = useStore((state) => state.resetEditedTask)
+    const reset = useStore((state) => state.resetCreatingPhone)
+    const { addPhone } = useStore((state) => state)
 
-    function signOut() {
-        supabase.auth.signOut()
-        router.push('/auth')
-    }
-    async function submitHandler(e: FormEvent<HTMLFormElement>) {
+    const submitHandler = async (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault()
-        if (editedTask.id === '') {
-            const { error } = await supabase
-                .from('todos')
-                .insert({ title: editedTask.title, user_id: loginUser.id })
-            router.refresh()
-            reset()
-        } else {
-            const { error } = await supabase
-                .from('todos')
-                .update({ title: editedTask.title })
-                .eq('id', editedTask.id)
-            router.refresh()
-            reset()
-        }
+        const val = creatingPhone.name
+        const id = loginUser.id
+        if (val === '' || id === undefined) return
+
+        addPhone(creatingPhone)
+        const { error } = await supabase
+            .from('subusers')
+            .insert({ name: val, user_id: id })
+        router.refresh()
+        reset()
+    }
+
+    const handleChangeName = (e: any) => {
+        if (
+            e.target.value === '' ||
+            loginUser.id === '' ||
+            loginUser.id === undefined
+        )
+            return
+        createPhone(loginUser.id, e.target.value)
     }
 
     return (
@@ -41,16 +43,14 @@ export default function PhoneCreate() {
                     type="text"
                     className="my-2 rounded border border-gray-300 px-3 py-2 text-sm placeholder-gray-500 focus:outline-none"
                     placeholder="New ?"
-                    value={editedTask.title || ''}
-                    onChange={(e) =>
-                        updateTask({ ...editedTask, title: e.target.value })
-                    }
+                    value={creatingPhone.name}
+                    onChange={handleChangeName}
                 />
                 <button
                     type="submit"
                     className="ml-2 rounded bg-indigo-600 px-3 py-2 text-sm font-medium text-white hover:bg-indigo-700 "
                 >
-                    {editedTask.id === '' ? 'Create' : 'Update'}
+                    {'Create'}
                 </button>
             </form>
         </div>

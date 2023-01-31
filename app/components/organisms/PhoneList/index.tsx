@@ -1,9 +1,9 @@
 'use client'
-import { useState } from 'react'
+import useStore from '../../../../store'
+import { useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import { TrashIcon } from '@heroicons/react/24/solid'
 import supabase from '../../../../utils/supabase'
-import useStore from '../../../../store'
 import type { Database } from '../../../../database.types'
 
 type Subuser = Database['public']['Tables']['subusers']['Row']
@@ -11,7 +11,13 @@ type Props = {
     Subusers: Subuser[]
 }
 export const PhoneList = ({ Subusers }: Props) => {
-    const [originList, setOriginlList] = useState(Subusers)
+    const {
+        originPhonesList,
+        editedPhonesList,
+        setPhones,
+        deletePhone,
+        updatePhones,
+    } = useStore((state) => state)
     const router = useRouter()
     const resetTask = useStore((state) => state.resetEditedTask)
     const updateMutate = async (id: string, name: string) => {
@@ -24,15 +30,13 @@ export const PhoneList = ({ Subusers }: Props) => {
         router.refresh()
     }
     const deleteList = (id: string) => {
-        const newList = originList.filter((List) => List.id !== id)
-        setOriginlList(newList)
+        deletePhone(id)
         deleteMutate(id)
     }
-    const handleChangeName = (e: any, id: any) => {
-        updateMutate(id, e.target.value)
-    }
+
     const updateList = (id: string, e: any) => {
-        const newList = originList.map((List) => {
+        console.log('up', editedPhonesList)
+        const newList = editedPhonesList.map((List) => {
             if (List.id === id) {
                 return {
                     id: List.id,
@@ -43,17 +47,24 @@ export const PhoneList = ({ Subusers }: Props) => {
             }
             return List
         })
-        setOriginlList(newList)
+        updatePhones(newList)
     }
     const onBlur = (id: string) => {
-        const list = originList.find((list) => String(list.id) === id)
+        const list = editedPhonesList.find((list) => String(list.id) === id)
         if (list === undefined) return
+        setPhones(editedPhonesList)
         updateMutate(id, list.name)
     }
+    //useStoreに初期値登録
+    useEffect(() => {
+        setPhones(Subusers)
+        updatePhones(Subusers)
+    }, [])
+
     return (
         <ul className="my-6 mx-3">
-            {originList &&
-                originList?.map((subuser) => (
+            {originPhonesList &&
+                originPhonesList?.map((subuser) => (
                     <li key={subuser.id} className="my-2">
                         <input
                             className="mr-1"

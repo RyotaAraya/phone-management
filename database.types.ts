@@ -141,24 +141,24 @@ export interface Database {
       profiles: {
         Row: {
           avatar_url: string | null
+          category: string
           id: string
           name: string | null
           updated_at: string
-          website: string | null
         }
         Insert: {
           avatar_url?: string | null
+          category?: string
           id: string
           name?: string | null
           updated_at?: string
-          website?: string | null
         }
         Update: {
           avatar_url?: string | null
+          category?: string
           id?: string
           name?: string | null
           updated_at?: string
-          website?: string | null
         }
       }
       subusers: {
@@ -166,19 +166,19 @@ export interface Database {
           created_at: string
           id: string
           name: string
-          user_id: string | null
+          user_id: string
         }
         Insert: {
           created_at?: string
           id?: string
           name: string
-          user_id?: string | null
+          user_id: string
         }
         Update: {
           created_at?: string
           id?: string
           name?: string
-          user_id?: string | null
+          user_id?: string
         }
       }
       todos: {
