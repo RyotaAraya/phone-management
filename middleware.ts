@@ -13,7 +13,7 @@ export async function middleware(req: NextRequest) {
     //未ログインであればauthにリダイレクト
     if (!session && req.nextUrl.pathname.startsWith('/auth/phone')) {
         const redirectUrl = req.nextUrl.clone()
-        redirectUrl.pathname = '/auth'
+        redirectUrl.pathname = '/auth/auth'
         return NextResponse.redirect(redirectUrl)
     }
     return res

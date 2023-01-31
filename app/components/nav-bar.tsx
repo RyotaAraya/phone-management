@@ -50,7 +50,7 @@ export default function NavBar() {
         return (
             <>
                 <div className="text-sm lg:flex-grow"></div>
-                <Link href="/auth">
+                <Link href="/auth/auth">
                     <ArrowLeftOnRectangleIcon
                         className="inline-block my-1 h-6 w-6 cursor-pointer lg:mt-0 text-white hover:bg-teal-500"
                         onClick={signOut}

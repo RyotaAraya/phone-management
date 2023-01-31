@@ -41,7 +41,6 @@ export default function AuthForm() {
             reset(password)
             if (error) {
                 alert(error.message)
-                router.push('/auth')
             } else {
                 router.push('/auth/phone')
             }
@@ -53,6 +52,8 @@ export default function AuthForm() {
             reset()
             if (error) {
                 alert(error.message)
+            } else {
+                router.push('/auth/phone')
             }
         }
     }
