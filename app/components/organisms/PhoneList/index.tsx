@@ -5,12 +5,14 @@ import { useRouter } from 'next/navigation'
 import { TrashIcon } from '@heroicons/react/24/solid'
 import supabase from '../../../../utils/supabase'
 import type { Database } from '../../../../database.types'
+import { useFetch } from '../../../../hooks/useFetch'
 
 type Subuser = Database['public']['Tables']['subusers']['Row']
 type Props = {
     Subusers: Subuser[]
 }
 export const PhoneList = ({ Subusers }: Props) => {
+    const { fetchPhone } = useFetch()
     const {
         originPhonesList,
         editedPhonesList,
@@ -22,7 +24,7 @@ export const PhoneList = ({ Subusers }: Props) => {
 
     const updateMutate = async (id: string, name: string) => {
         await supabase.from('subusers').update({ name: name }).eq('id', id)
-        fetchUsers()
+        fetchPhone()
         resetEditedTask()
     }
     const updateList = (id: string, e: any) => {
@@ -51,7 +53,7 @@ export const PhoneList = ({ Subusers }: Props) => {
     }
     const deleteMutate = async (id: string) => {
         await supabase.from('subusers').delete().eq('id', id)
-        fetchUsers()
+        fetchPhone()
     }
 
     //useStoreに初期値登録
@@ -59,17 +61,6 @@ export const PhoneList = ({ Subusers }: Props) => {
         setPhones(Subusers)
         updatePhones(Subusers)
     }, [])
-
-    const fetchUsers = async () => {
-        const { data } = await supabase
-            .from('subusers')
-            .select('*')
-            .order('created_at', { ascending: true })
-
-        if (data === null) return
-        setPhones(data) // useStateにデータを保存する
-        console.log(data)
-    }
 
     return (
         <ul className="my-6 mx-3">

@@ -3,15 +3,17 @@ import { FormEvent, useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import useStore from '../../../../store'
 import supabase from '../../../../utils/supabase'
+import { useFetch } from '../../../../hooks/useFetch'
 
 export default function PhoneCreate() {
-    const router = useRouter()
-    const { creatingPhone, originPhonesList, setPhones } = useStore(
-        (state) => state
-    )
-    const { createPhone } = useStore((state) => state)
-    const { loginUser } = useStore()
-    const reset = useStore((state) => state.resetCreatingPhone)
+    const { fetchPhone } = useFetch()
+    const {
+        creatingPhone,
+        createPhone,
+        setPhones,
+        loginUser,
+        resetCreatingPhone,
+    } = useStore((state) => state)
 
     const submitHandler = async (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault()
@@ -22,9 +24,8 @@ export default function PhoneCreate() {
         const { error } = await supabase
             .from('subusers')
             .insert({ name: val, user_id: id })
-        fetchUsers()
-        router.refresh()
-        reset()
+        fetchPhone()
+        resetCreatingPhone()
     }
 
     const handleChangeName = (e: any) => {
@@ -35,16 +36,6 @@ export default function PhoneCreate() {
         )
             return
         createPhone(loginUser.id, e.target.value)
-    }
-
-    const fetchUsers = async () => {
-        const { data } = await supabase
-            .from('subusers')
-            .select('*')
-            .order('created_at', { ascending: true })
-
-        if (data === null) return
-        setPhones(data) // useStateにデータを保存する
     }
 
     return (
