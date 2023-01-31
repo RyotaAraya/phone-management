@@ -47,7 +47,6 @@ type State = {
     createPhone: (id: string, name: any) => void
     updatePhones: (paylod: Phone[]) => void
     setPhones: (payload: Phone[]) => void
-    addPhone: (payload: Phone) => void
     deletePhone: (payload: string) => void
 }
 //開発用
@@ -102,11 +101,6 @@ const useStore = create<State>((set, get) => ({
         }),
     setPhones: (payload) => set({ originPhonesList: payload }),
     updatePhones: (payload) => set({ editedPhonesList: payload }),
-    addPhone: (payload) => {
-        set((state) => ({
-            originPhonesList: [...state.originPhonesList, payload],
-        }))
-    },
     deletePhone: (payload) =>
         set((state) => ({
             originPhonesList: state.originPhonesList.filter(

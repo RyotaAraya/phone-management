@@ -17,22 +17,13 @@ export const PhoneList = ({ Subusers }: Props) => {
         setPhones,
         deletePhone,
         updatePhones,
+        resetEditedTask,
     } = useStore((state) => state)
-    const router = useRouter()
-    const resetTask = useStore((state) => state.resetEditedTask)
+
     const updateMutate = async (id: string, name: string) => {
         await supabase.from('subusers').update({ name: name }).eq('id', id)
         fetchUsers()
-        resetTask()
-    }
-    const deleteMutate = async (id: string) => {
-        await supabase.from('subusers').delete().eq('id', id)
-        //router.refresh()
-        fetchUsers()
-    }
-    const deleteList = (id: string) => {
-        deletePhone(id)
-        deleteMutate(id)
+        resetEditedTask()
     }
     const updateList = (id: string, e: any) => {
         console.log('up', editedPhonesList)
@@ -54,6 +45,15 @@ export const PhoneList = ({ Subusers }: Props) => {
         if (list === undefined) return
         updateMutate(id, list.name)
     }
+    const deleteList = (id: string) => {
+        deletePhone(id)
+        deleteMutate(id)
+    }
+    const deleteMutate = async (id: string) => {
+        await supabase.from('subusers').delete().eq('id', id)
+        fetchUsers()
+    }
+
     //useStoreに初期値登録
     useEffect(() => {
         setPhones(Subusers)
@@ -68,7 +68,7 @@ export const PhoneList = ({ Subusers }: Props) => {
 
         if (data === null) return
         setPhones(data) // useStateにデータを保存する
-        console.log(data) // supabaseからデータがfetchできているかdebugする
+        console.log(data)
     }
 
     return (
