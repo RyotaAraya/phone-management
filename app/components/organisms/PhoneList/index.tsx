@@ -23,11 +23,13 @@ export const PhoneList = ({ Subusers }: Props) => {
     const updateMutate = async (id: string, name: string) => {
         await supabase.from('subusers').update({ name: name }).eq('id', id)
         resetTask()
-        router.refresh()
+        //router.refresh()
+        fetchUsers()
     }
     const deleteMutate = async (id: string) => {
         await supabase.from('subusers').delete().eq('id', id)
-        router.refresh()
+        //router.refresh()
+        fetchUsers()
     }
     const deleteList = (id: string) => {
         deletePhone(id)
@@ -59,6 +61,13 @@ export const PhoneList = ({ Subusers }: Props) => {
         setPhones(Subusers)
         updatePhones(Subusers)
     }, [])
+
+    const fetchUsers = async () => {
+        const { data } = await supabase.from('subusers').select('*')
+        if (data === null) return
+        setPhones(data) // useStateにデータを保存する
+        console.log(data) // supabaseからデータがfetchできているかdebugする
+    }
 
     return (
         <ul className="my-6 mx-3">

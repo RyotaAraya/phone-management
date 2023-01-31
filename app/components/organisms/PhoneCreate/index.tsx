@@ -6,7 +6,9 @@ import supabase from '../../../../utils/supabase'
 
 export default function PhoneCreate() {
     const router = useRouter()
-    const { creatingPhone } = useStore((state) => state)
+    const { creatingPhone, originPhonesList, setPhones } = useStore(
+        (state) => state
+    )
     const { createPhone } = useStore((state) => state)
     const { loginUser } = useStore()
     const reset = useStore((state) => state.resetCreatingPhone)
@@ -22,7 +24,8 @@ export default function PhoneCreate() {
         const { error } = await supabase
             .from('subusers')
             .insert({ name: val, user_id: id })
-        router.refresh()
+        //router.refresh()
+        fetchUsers()
         reset()
     }
 
@@ -34,6 +37,13 @@ export default function PhoneCreate() {
         )
             return
         createPhone(loginUser.id, e.target.value)
+    }
+
+    const fetchUsers = async () => {
+        const { data } = await supabase.from('subusers').select('*')
+        if (data === null) return
+        setPhones(data) // useStateにデータを保存する
+        console.log(data) // supabaseからデータがfetchできているかdebugする
     }
 
     return (
