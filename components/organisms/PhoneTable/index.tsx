@@ -32,8 +32,15 @@ interface Row {
 }
 type Subuser = Database['public']['Tables']['subusers']['Row']
 
-type Props = {
-    rows: Subuser[]
+type data = {
+    no: number
+    id: string
+    subuser_name: string
+    tel: string
+    created_at: string
+    contract_start_date: string
+    contract_end_date: string
+    complete: boolean | null
 }
 
 function subtotal(items: readonly Row[]) {
@@ -50,7 +57,8 @@ const invoiceSubtotal = subtotal(rows)
 const invoiceTaxes = TAX_RATE * invoiceSubtotal
 const invoiceTotal = invoiceTaxes + invoiceSubtotal
 
-export default function PhoneTable({ rows }: Props) {
+export default function PhoneTable({ rows }: any) {
+    console.log('rows', rows)
     return (
         <TableContainer component={Paper}>
             <Table sx={{ minWidth: 700 }} aria-label="spanning table">
@@ -63,18 +71,28 @@ export default function PhoneTable({ rows }: Props) {
                     </TableRow>
                     <TableRow>
                         <TableCell align="left">使用者</TableCell>
-                        <TableCell align="left">Qty.</TableCell>
-                        <TableCell align="left">Unit</TableCell>
-                        <TableCell align="right">Sum</TableCell>
+                        <TableCell align="left">電話番号</TableCell>
+                        <TableCell align="left">契約開始日</TableCell>
+                        <TableCell align="left">契約終了日</TableCell>
+                        <TableCell align="left">契約状況</TableCell>
                     </TableRow>
                 </TableHead>
                 <TableBody>
                     {rows.map((row: any) => (
                         <TableRow key={row.id}>
-                            <TableCell align="left">{row.name}</TableCell>
-                            <TableCell align="left">{}</TableCell>
-                            <TableCell align="left">{}</TableCell>
-                            <TableCell align="left">{}</TableCell>
+                            <TableCell align="left">
+                                {row.subuser_name}
+                            </TableCell>
+                            <TableCell align="left">{row.tel}</TableCell>
+                            <TableCell align="left">
+                                {row.contract_start_date}
+                            </TableCell>
+                            <TableCell align="left">
+                                {row.contract_end_date}
+                            </TableCell>
+                            <TableCell align="left">
+                                {row.complete ? '終了' : '契約中'}
+                            </TableCell>
                         </TableRow>
                     ))}
                     <TableRow>

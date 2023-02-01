@@ -5,30 +5,37 @@ import { PhoneList } from '../../organisms/PhoneList'
 import PhoneCreate from '../../organisms/PhoneCreate'
 import PhoneTable from '../../organisms/PhoneTable'
 
+type Subuser = Database['public']['Tables']['subusers']['Row']
+
 export default async function PhoneTemplate() {
     const supabase = createServerComponentSupabaseClient<Database>({
         headers,
         cookies,
     })
-    const { data } = await supabase.from('subusers').select(`
-            *,
-            numbers(
-                *,
-                contracts(
-                    *
-                )
-            )
-        `)
-    console.log('list', list(data))
+    const { data } = await supabase
+        .from('subusers')
+        .select()
+        .order('created_at', { ascending: true })
+
+    // const { data } = await supabase.from('subusers').select(`
+    //         *,
+    //         numbers(
+    //             *,
+    //             contracts(
+    //                 *
+    //             )
+    //         )
+    //     `)
+    //const list = MakeList(data)
     return (
         <>
             <PhoneCreate />
-            {data && <PhoneTable rows={data} />}
+            {data && <PhoneList rows={data} />}
         </>
     )
 }
 
-export const list = (rows: any) => {
+export const MakeList = (rows: any) => {
     type data = {
         no: number
         id: string

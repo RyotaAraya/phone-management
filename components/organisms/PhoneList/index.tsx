@@ -9,9 +9,9 @@ import { useFetch } from '../../../hooks/useFetch'
 
 type Subuser = Database['public']['Tables']['subusers']['Row']
 type Props = {
-    Subusers: Subuser[]
+    rows: Subuser[]
 }
-export const PhoneList = ({ Subusers }: Props) => {
+export const PhoneList = ({ rows }: Props) => {
     const { fetchPhone } = useFetch()
     const {
         originPhonesList,
@@ -28,7 +28,6 @@ export const PhoneList = ({ Subusers }: Props) => {
         resetEditedTask()
     }
     const updateList = (id: string, e: any) => {
-        console.log('up', editedPhonesList)
         const newList = editedPhonesList.map((List) => {
             if (List.id === id) {
                 return {
@@ -58,8 +57,8 @@ export const PhoneList = ({ Subusers }: Props) => {
 
     //useStoreに初期値登録
     useEffect(() => {
-        setPhones(Subusers)
-        updatePhones(Subusers)
+        setPhones(rows)
+        updatePhones(rows)
     }, [])
 
     return (
