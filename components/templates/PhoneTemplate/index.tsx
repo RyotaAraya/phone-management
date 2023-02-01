@@ -1,6 +1,6 @@
 import { headers, cookies } from 'next/headers'
 import { createServerComponentSupabaseClient } from '@supabase/auth-helpers-nextjs'
-import type { Database } from '../../../../database.types'
+import type { Database } from '../../../database.types'
 import { PhoneList } from '../../organisms/PhoneList'
 import PhoneCreate from '../../organisms/PhoneCreate'
 

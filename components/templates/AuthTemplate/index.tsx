@@ -1,6 +1,6 @@
 'use client'
 import AuthForm from '../../organisms/AuthForm'
-import useStore from '../../../../store'
+import useStore from '../../../store'
 
 export default function Auth() {
     const { loginUser, resetLoginUser } = useStore()

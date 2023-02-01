@@ -1,5 +1,5 @@
 'use client'
-import Auth from '../../components/templates/AuthTemplate'
+import Auth from '../../../components/templates/AuthTemplate'
 
 export default function Error({ error }: { error: Error }) {
     return (

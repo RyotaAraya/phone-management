@@ -1,12 +1,12 @@
 'use client'
 import Link from 'next/link'
-import useStore from '../../store'
+import useStore from '../store'
 import { useEffect } from 'react'
 import {
     ArrowRightOnRectangleIcon,
     ArrowLeftOnRectangleIcon,
 } from '@heroicons/react/24/solid'
-import supabase from '../../utils/supabase'
+import supabase from '../utils/supabase'
 
 export default function NavBar() {
     const { loginUser, resetLoginUser } = useStore()

@@ -1,11 +1,11 @@
 'use client'
-import useStore from '../../../../store'
+import useStore from '../../../store'
 import { useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import { TrashIcon } from '@heroicons/react/24/solid'
-import supabase from '../../../../utils/supabase'
-import type { Database } from '../../../../database.types'
-import { useFetch } from '../../../../hooks/useFetch'
+import supabase from '../../../utils/supabase'
+import type { Database } from '../../../database.types'
+import { useFetch } from '../../../hooks/useFetch'
 
 type Subuser = Database['public']['Tables']['subusers']['Row']
 type Props = {
@@ -19,7 +19,7 @@ export const PhoneList = ({ Subusers }: Props) => {
         setPhones,
         deletePhone,
         updatePhones,
-        resetEditedTask
+        resetEditedTask,
     } = useStore((state) => state)
 
     const updateMutate = async (id: string, name: string) => {

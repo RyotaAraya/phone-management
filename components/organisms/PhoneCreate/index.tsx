@@ -1,9 +1,9 @@
 'use client'
 import { FormEvent, useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
-import useStore from '../../../../store'
-import supabase from '../../../../utils/supabase'
-import { useFetch } from '../../../../hooks/useFetch'
+import useStore from '../../../store'
+import supabase from '../../../utils/supabase'
+import { useFetch } from '../../../hooks/useFetch'
 
 export default function PhoneCreate() {
     const { fetchPhone } = useFetch()
