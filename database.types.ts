@@ -62,7 +62,6 @@ export interface Database {
       }
       contracts: {
         Row: {
-          company_id: string | null
           completed: boolean
           created_at: string | null
           end_date: string
@@ -72,7 +71,6 @@ export interface Database {
           user_id: string | null
         }
         Insert: {
-          company_id?: string | null
           completed?: boolean
           created_at?: string | null
           end_date?: string
@@ -82,7 +80,6 @@ export interface Database {
           user_id?: string | null
         }
         Update: {
-          company_id?: string | null
           completed?: boolean
           created_at?: string | null
           end_date?: string
@@ -117,25 +114,25 @@ export interface Database {
       }
       numbers: {
         Row: {
-          created_at: string | null
+          created_at: string
           id: string
-          sub_user_id: string | null
-          tel: string | null
-          user_id: string | null
+          sub_user_id: string
+          tel: string
+          user_id: string
         }
         Insert: {
-          created_at?: string | null
+          created_at?: string
           id?: string
-          sub_user_id?: string | null
-          tel?: string | null
-          user_id?: string | null
+          sub_user_id: string
+          tel: string
+          user_id: string
         }
         Update: {
-          created_at?: string | null
+          created_at?: string
           id?: string
-          sub_user_id?: string | null
-          tel?: string | null
-          user_id?: string | null
+          sub_user_id?: string
+          tel?: string
+          user_id?: string
         }
       }
       profiles: {
