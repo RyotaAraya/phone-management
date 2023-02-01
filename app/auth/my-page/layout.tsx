@@ -1,8 +1,3 @@
-import { Suspense } from 'react'
-import Spinner from '../../../components/spinner'
-import EditTask from '../../../components/todo-edit'
-import TodoList from '../../../components/todo-list'
-
 export default async function TodoLayout({
     children,
 }: {

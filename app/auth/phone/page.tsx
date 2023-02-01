@@ -1,5 +1,5 @@
 import { Suspense } from 'react'
-import Spinner from '../../../components/spinner'
+import Spinner from '../../../components/atom/Spinner'
 import PhoneTemplate from '../../../components/templates/PhoneTemplate'
 
 export default function PhonePage() {
