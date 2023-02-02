@@ -8,7 +8,7 @@ import {
 import supabase from '../../../utils/supabase'
 
 export const NavBar = () => {
-    const { loginUser, resetLoginUser } = useStore()
+    const { loginUser, resetLoginUser } = useStore((state) => state)
     function signOut() {
         supabase.auth.signOut()
         resetLoginUser()

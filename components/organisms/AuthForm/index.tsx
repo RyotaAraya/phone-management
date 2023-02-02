@@ -60,6 +60,7 @@ export default function AuthForm() {
     return (
         <div className="flex flex-col items-center justify-center">
             <p>{loginUser.email}</p>
+            {!isLogin && <h3>{`適当なメールアドレスでOKです。(test2@test.comなど)`}</h3>}
             <form onSubmit={handleSubmit(onSubmit)}>
                 <div>
                     <input
