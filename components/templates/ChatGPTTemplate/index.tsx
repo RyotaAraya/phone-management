@@ -55,30 +55,26 @@ export const ChatGPTTemplae = () => {
 
         setMessages([myMessage, ...messagesRef.current])
 
-        try {
-            const response = await fetch('/api/generate-answer', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    prompt: input,
-                }),
-            }).then((response) => response.json())
-            setLoading(false)
+        const response = await fetch('/api/generate-answer', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                prompt: input,
+            }),
+        }).then((response) => response.json())
+        setLoading(false)
 
-            if (response.text) {
-                const botMessage: MessageProps = {
-                    text: response.text,
-                    from: Creator.Bot,
-                    key: new Date().getTime(),
-                }
-                setMessages([botMessage, ...messagesRef.current])
-            } else {
-                throw new SyntaxError('レスポンスなし')
+        if (response.text) {
+            const botMessage: MessageProps = {
+                text: response.text,
+                from: Creator.Bot,
+                key: new Date().getTime(),
             }
-        } catch (error) {
-            throw new Error('しばらく経ってからお試しください')
+            setMessages([botMessage, ...messagesRef.current])
+        } else {
+            throw new SyntaxError('レスポンスなし')
         }
     }
     const handleSubmit = () => {
