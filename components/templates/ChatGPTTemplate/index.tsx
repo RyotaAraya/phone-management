@@ -41,6 +41,7 @@ const ChatMessage = ({ text, from }: MessageProps) => {
 
 export const ChatGPTTemplae = () => {
     const [input, setInput] = useState('')
+    const [robRes, setRobRes, setRobRef] = useState('')
     const [message, setMessages, messagesRef] = useState<MessageProps[]>([])
     const [loading, setLoading] = useState(false)
 
@@ -55,26 +56,47 @@ export const ChatGPTTemplae = () => {
 
         setMessages([myMessage, ...messagesRef.current])
 
-        const response = await fetch('/api/generate-answer', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                prompt: input,
-            }),
-        }).then((response) => response.json())
-        setLoading(false)
+        try {
+            const response = await fetch('/api/generate-answer', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    prompt: input,
+                }),
+            })
 
-        if (response.text) {
+            if (!response.ok) {
+                throw new Error(response.statusText)
+            }
+
+            const data = response.body
+            if (!data) {
+                return
+            }
+            const reader = data.getReader()
+            const decoder = new TextDecoder()
+            let done = false
+
+            let tmp = ''
+            while (!done) {
+                const { value, done: doneReading } = await reader.read()
+                done = doneReading
+                const chunkValue = decoder.decode(value)
+                tmp = tmp + chunkValue
+            }
+            setRobRes(tmp)
+
             const botMessage: MessageProps = {
-                text: response.text,
+                text: setRobRef.current,
                 from: Creator.Bot,
                 key: new Date().getTime(),
             }
+            setLoading(false)
             setMessages([botMessage, ...messagesRef.current])
-        } else {
-            throw new SyntaxError('レスポンスなし')
+        } catch (e) {
+            alert(e)
         }
     }
     const handleSubmit = () => {
@@ -107,7 +129,7 @@ export const ChatGPTTemplae = () => {
                 <div className="top-4">
                     {loading && (
                         <p className="text-gray-500 flex justify-center">
-                            少々おまちを
+                            時間がかかる場合があります。1分ほど待っても取得できない場合は再度お試しください。
                         </p>
                     )}
                     {loading && <Spinner />}

@@ -1,42 +1,27 @@
-import type { NextApiRequest, NextApiResponse } from 'next'
-import { Configuration, OpenAIApi } from 'openai'
-
-type ResponseData = {
-    text: string
+import { OpenAIStream } from '../../utils/openAiStream'
+export const config = {
+    runtime: 'experimental-edge',
 }
 
-interface GenerateNextApiRequest extends NextApiRequest {
-    body: {
-        prompt: string
+const handler = async (req: Request): Promise<Response> => {
+    const { prompt } = (await req.json()) as {
+        prompt?: string
     }
-}
 
-const configuration = new Configuration({
-    apiKey: process.env.OPEN_API_KEY,
-})
-
-const openai = new OpenAIApi(configuration)
-
-export default async function handler(
-    req: GenerateNextApiRequest,
-    res: NextApiResponse<ResponseData>
-) {
-    const prompt = req.body.prompt
-
-    if (!prompt || prompt === '') {
-        return new Response('Please send your prompt', { status: 400 })
-    }
-    const aiResult = await openai.createCompletion({
+    const payload = {
         model: 'text-davinci-003',
-        prompt: `${prompt}`,
-        temperature: 0.9,
-        max_tokens: 2048,
-        frequency_penalty: 0.5,
+        prompt,
+        temperature: 0.7,
+        top_p: 1,
+        frequency_penalty: 0,
         presence_penalty: 0,
-    })
+        max_tokens: 200,
+        stream: true,
+        n: 1,
+    }
 
-    const response =
-        aiResult.data.choices[0].text?.trim() || 'Sorry, there was a problem!'
-
-    res.status(200).json({ text: response })
+    const stream = await OpenAIStream(payload)
+    return new Response(stream)
 }
+
+export default handler
