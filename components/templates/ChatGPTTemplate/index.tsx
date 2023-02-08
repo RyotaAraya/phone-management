@@ -39,7 +39,7 @@ const ChatMessage = ({ text, from }: MessageProps) => {
     )
 }
 
-export default function ChatGPTTemplae() {
+export const ChatGPTTemplae = () => {
     const [input, setInput] = useState('')
     const [message, setMessages, messagesRef] = useState<MessageProps[]>([])
     const [loading, setLoading] = useState(false)
@@ -97,6 +97,7 @@ export default function ChatGPTTemplae() {
                         className="w-full py-2 px-3 text-gray-800 rounded-lg focus:outline-none"
                         type="text"
                         placeholder="質問をどうぞ"
+                        disabled={loading}
                     />
                     {!loading && message.length < 4 && (
                         <button
@@ -126,7 +127,9 @@ export default function ChatGPTTemplae() {
                     />
                 ))}
                 {message.length === 0 && (
-                    <p className="text-center text-gray-400">2回質問できます。</p>
+                    <p className="text-center text-gray-400">
+                        2回質問できます。
+                    </p>
                 )}
                 {message.length >= 4 && (
                     <p className="text-center text-red-400">終了です。</p>
@@ -135,3 +138,5 @@ export default function ChatGPTTemplae() {
         </main>
     )
 }
+
+export default ChatGPTTemplae
